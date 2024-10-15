@@ -1,2 +1,3 @@
 # E-Commerce-CupCacke-App
-An API RESTFull E-Commerce App developed using Node.js and ReactJs
+An API RESTFull E-Commerce App
+<h2>Tecnologies<h2/>
