@@ -1,4 +1,4 @@
-# API RESTFull For An E-Commerce App 
+# E-Commerce REST API 
 
 <h2>Tecnologies<h2/>
   
