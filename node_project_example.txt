@@ -1,0 +1,25 @@
+Start Poject:
+
+npm init -y
+
+Install Dependecies:
+
+npm i --save-dev tsx typescript @types/node @prisma/client prisma vitest 
+npm i  fastify 
+
+Create tsconfig.json:
+
+npx tsc --init
+
+Config tsconfig.json:
+
+tsconfig settings node 20:
+"compilerOptions": {
+    "lib": ["ES2023"],
+    "module": "node16",
+    "target": "ES2022"
+  }
+
+Prisma:
+  npx primsa init
+  npx prisma migrate dev --name MIGRATION-NAME
