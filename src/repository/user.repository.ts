@@ -1,6 +1,5 @@
 import{PrismaClient} from '@prisma/client'    
 import { IUser, ICreateProfile, ICreateUser } from '../interfaces/user.interface';
-import { userInfo } from 'os';
 
 export class UserRepository implements IUser
 {
@@ -30,6 +29,8 @@ export class UserRepository implements IUser
     async FindUserByName(input: string): Promise<boolean> {
 
         const findUserByName = await this.prisma.user.findFirst({where:{ name : input}})
+
+        await this.prisma.$disconnect()
         
         if(findUserByName ){ return true }
 
@@ -42,16 +43,33 @@ export class UserRepository implements IUser
                 id: Number(input)
             }
         })
+
+        await this.prisma.$disconnect()
+
         if(findUserById ){ return true }
 
         return false
     }
 
     async UpdatePassword(userName: string, newPassword: string): Promise<Object> {
-        const updateUser = await this.prisma.user.update({
+
+        const userId = this.prisma.user.findFirst({            
             where:{name: userName},
+            select:{ id:true}            
+        })
+        
+        const updateUser = await this.prisma.user.update({
+            where:{id: Number(userId)},
             data:{password: newPassword}
         })
+
+        await this.prisma.$disconnect()
+
+        if(updateUser)
+        {
+            return {message: `${updateUser.name}, your password has been updated! `}
+        }
+        return {message: `Invalida data!`}
     }
     UpdateProfile(input: string): Promise<Object> {
         throw new Error('Method not implemented.');

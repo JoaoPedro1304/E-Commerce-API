@@ -16,6 +16,6 @@ export interface IUser{
     CreateProfile(profile : ICreateProfile) : Promise<Object>
     FindUserByName(input: string) : Promise<boolean>
     FindUserById(input: Number) : Promise<boolean>
-    UpdatePassword(input: string) : Promise<Object>
+    UpdatePassword(input: string, newPassword: string) : Promise<Object>
     UpdateProfile(input: string) : Promise<Object>
 }

@@ -11,7 +11,7 @@ Create tsconfig.json:
 
 npx tsc --init
 
-Config tsconfig.json:
+Configurar tsconfig.json:
 
 tsconfig settings node 20:
 "compilerOptions": {
