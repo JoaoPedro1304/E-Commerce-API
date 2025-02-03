@@ -4,7 +4,7 @@ import { FastifyInstance } from "fastify";
 export async function Routes(fastify:FastifyInstance) {
     
     fastify.get('/',(req,reply)=>{
-         reply.code(200).send() // retornar os produtos com estoque a cima de 0
+         reply.code(200).send({message:"home page"}) // retornar os produtos com estoque a cima de 0
         })
     fastify.post('/CreateUser',(req,reply)=>{ 
             //Criar conta

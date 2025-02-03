@@ -1,19 +1,20 @@
 import{PrismaClient} from '@prisma/client'    
 import { IUser, ICreateProfile, ICreateUser } from '../interfaces/user.interface';
 
+
 export class UserRepository implements IUser
 {
     prisma = new PrismaClient()
 
-    async CreateUser(user: ICreateUser): Promise<Object> {
+    async CreateUser(user : ICreateUser): Promise<Object> {
         
         if(await this.FindUserByName(user.name)){
             return {message:"User already exists."}
         }
         const createUser = await this.prisma.user.create({
             data:{
-                name:user.name,
-                password:user.password
+                name: user.name,
+                password: user.password
             }
         })
 
@@ -26,19 +27,22 @@ export class UserRepository implements IUser
         throw new Error('Method not implemented.');
     }
     
-    async FindUserByName(input: string): Promise<boolean> {
+    async FindUserByName(input: string): Promise<object> {
 
-        const findUserByName = await this.prisma.user.findFirst({where:{ name : input}})
+        const user = await this.prisma.user.findFirst({where:{ name : input}})
 
         await this.prisma.$disconnect()
         
-        if(findUserByName ){ return true }
+        if(user)
+        { 
+            return {id:user.id, user:user.name}
+        }
 
-        return false
+        return {error:"User not found!"}
     }
 
-    async FindUserById(input: Number): Promise<boolean> {
-        const findUserById = await this.prisma.user.findFirst({
+    async FindUserById(input: Number): Promise<object> {
+        const user = await this.prisma.user.findFirst({
             where:{
                 id: Number(input)
             }
@@ -46,9 +50,12 @@ export class UserRepository implements IUser
 
         await this.prisma.$disconnect()
 
-        if(findUserById ){ return true }
+        if(user)
+        { 
+            return {id:user.id, user:user.id}
+        }
 
-        return false
+        return {error:"User not found!"}
     }
 
     async UpdatePassword(userName: string, newPassword: string): Promise<Object> {
@@ -71,7 +78,7 @@ export class UserRepository implements IUser
         }
         return {message: `Invalida data!`}
     }
-    UpdateProfile(input: string): Promise<Object> {
+    UpdateProfile(input ?: ICreateProfile): Promise<Object> {
         throw new Error('Method not implemented.');
     }
     
