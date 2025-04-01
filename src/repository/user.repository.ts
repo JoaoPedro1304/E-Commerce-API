@@ -12,17 +12,17 @@ export class UserRepository implements IUser
     async CreateUser(input : User): Promise<UserResponse> {
         
         if(await this.FindUserByName(input.name)!==null){
-            return null
+            return {message:"Error, User Already Exists!"}
         }
 
         const user =await this.prismaCliente.user.create({
             data:{
                 name:input.name,
-                password:input.password   
+                password:input.password                
             }
         })
         
-        return {message: "User Created! ",id: user.id, name:user.name, createdAt: Date.now().toString()}
+        return {message: "User Created!",id: user.id, name:user.name, createdAt: user.createdAt.toString()}
     }
    
     async FindUserByName(name: string): Promise<UserResponse> {
@@ -32,7 +32,7 @@ export class UserRepository implements IUser
         }) 
         if(user){
 
-            return {message:"User Finded! ",id: user.id, name:user.name}
+            return {message:"User Finded!",id: user.id, name:user.name}
         }
         return null
                

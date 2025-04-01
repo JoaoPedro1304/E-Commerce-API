@@ -3,6 +3,7 @@ import { UserRepository } from "../repository/user.repository";
 import { User } from "../interfaces/user.interface";
 
 const userRepository  = new UserRepository()
+
 export class UserController
 {
     
@@ -21,7 +22,7 @@ export class UserController
         async FindUserByName(request: FastifyRequest<{Querystring:{name:string}}>, reply: FastifyReply)
         {
             const{name}=request.query
-            
+
             try
             {
                 const user = await userRepository.FindUserByName(name)

@@ -1,6 +1,5 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { UserController } from "../controller/user.controller";
-import { ICreateUser } from "../interfaces/user.interface";
 
 
 const userController = new UserController()
