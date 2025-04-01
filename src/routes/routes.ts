@@ -1,16 +1,23 @@
-import { FastifyInstance } from "fastify";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import { UserController } from "../controller/user.controller";
+import { ICreateUser } from "../interfaces/user.interface";
 
 
-export async function Routes(fastify:FastifyInstance) {
+const userController = new UserController()
+
+export async function Routes(fastify:FastifyInstance) {    
     
+
     fastify.get('/',(req,reply)=>{
          reply.code(200).send({message:"home page"}) // retornar os produtos com estoque a cima de 0
         })
-    fastify.post('/CreateUser',(req,reply)=>{ 
-            //Criar conta
-        })
+
+    fastify.get('/find-user-name', userController.FindUserByName)
+
+    fastify.post('/create-user',userController.CreateUser)
+
     fastify.post('/login',(req,reply)=>{ 
-        //Efetuar login de usuario
+        //Efetuar login de usuario, necessário criara sistema de login
         })
     fastify.get('/products',(req, reply)=>{
         //Retornar produtos em estoque

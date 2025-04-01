@@ -1,5 +1,5 @@
 
-//PIMBOLA
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -27,7 +27,6 @@ model Profile{
   profileId Int ? @unique
 }
 
-//PRECISA RODAR O MIGRATE - APAGAR COMENTÁRIO APÓS RODAR O MIGRATE.
 model Products{
   id Int @id @default(autoincrement())
   image Bytes
