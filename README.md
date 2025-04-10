@@ -1,6 +1,6 @@
 # E-Commerce REST API 
 
-##Projeto ainda está fase de implementação.
+## Projeto ainda está fase de implementação.
 
 <h2>Tecnologies<h2/>
   
