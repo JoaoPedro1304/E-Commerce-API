@@ -4,7 +4,7 @@ import { UserController } from "../controller/user.controller";
 
 const userController = new UserController()
 
-export async function Routes(fastify:FastifyInstance) {    
+export async function Routes(fastify:FastifyInstance) {
     
 
     fastify.get('/',(req,reply)=>{

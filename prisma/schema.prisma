@@ -20,7 +20,7 @@ model User{
 
 model Profile{
   id Int @id @default(autoincrement())
-  avatar Bytes
+  avatar Bytes? 
   street String
   number Int
   postalcode String

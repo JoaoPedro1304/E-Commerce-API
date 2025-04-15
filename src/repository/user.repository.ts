@@ -1,63 +1,63 @@
 import { PrismaClient } from '@prisma/client';
-import { IUser,UserResponse, Profile, User } from '../interfaces/user.interface';
+import { UserMethods, Profile, User} from '../interfaces/user.interface';
 
 
-export class UserRepository implements IUser
+export class UserRepository implements UserMethods
 {    
     prismaCliente : PrismaClient
     constructor(){
         this.prismaCliente = new PrismaClient()
-    }   
+    } 
 
-    async CreateUser(input : User): Promise<UserResponse> {
-        
-        if(await this.FindUserByName(input.name)!==null){
-            return {message:"Error, User Already Exists!"}
+    async CreateUser(input : User): Promise<User | null> {
+
+        if(await this.FindUserByName(input.name)){
+
+            return await this.prismaCliente.user.create({
+                data:{
+                    name:input.name,
+                    password:input.password                
+                }
+            })        
         }
 
-        const user =await this.prismaCliente.user.create({
-            data:{
-                name:input.name,
-                password:input.password                
-            }
-        })
-        
-        return {message: "User Created!",id: user.id, name:user.name, createdAt: user.createdAt.toString()}
+        return null
+       
     }
    
-    async FindUserByName(name: string): Promise<UserResponse> {
+    async FindUserByName(name: string): Promise<User|null> {
 
-        const user = await this.prismaCliente.user.findFirst({
+        return await this.prismaCliente.user.findFirst({
             where:{name:name}
-        }) 
-        if(user){
-
-            return {message:"User Finded!",id: user.id, name:user.name}
-        }
-        return null
-               
+        })
        
     }
 
-    async FindUserById(id: number): Promise<UserResponse> {
+    async FindUserById(id: number): Promise<User | null> {
         
-        const user = await this.prismaCliente.user.findFirst({
+        return await this.prismaCliente.user.findFirst({
             where:{id:id}
         })       
-        if(user){
-
-            return {message:"User Finded! ",id: user.id, name:user.name}
-        }
-        return null
+ 
     }
 
-    CreateProfile(profile: Profile): Promise<UserResponse> {
+    async CreateProfile(id:number, profile: Profile): Promise<Profile> {
+        const _profile = await this.prismaCliente.profile.create({
+            data:
+                {   avatar: profile.avatar,                          
+                    street:profile.street,
+                    number:profile.number,
+                    postalcode:profile.postalcode,
+                    profileId:id
+                }
+            })
+            throw new Error('Method not implemented')
+
+    }
+    UpdateUser(name: string, password: string, newName: string, newPassword: string): Promise<User> {
         throw new Error('Method not implemented.');
     }
-    UpdateUser(name: string, password: string, newName: string, newPassword: string): Promise<UserResponse> {
-        throw new Error('Method not implemented.');
-    }
-    DeleteUser(name: string, password: string): Promise<UserResponse> {
+    DeleteUser(name: string, password: string): Promise<User> {
         throw new Error('Method not implemented.');
     }
 

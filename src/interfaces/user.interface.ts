@@ -1,8 +1,9 @@
 
 export interface User{
+    id:number
     name:string    
     password:string
-    createdAt?:string
+    createdAt?:Date    
 }
 export interface Profile
 {
@@ -12,13 +13,12 @@ export interface Profile
     postalcode : string
 }
 
-export type UserResponse= {message:string, id?: number, name?: string, createdAt?: string} | null
 
-export interface IUser{
-    CreateUser(user:User) : Promise<UserResponse>
-    CreateProfile(profile : Profile) : Promise<UserResponse>
-    FindUserByName(name: string) : Promise<UserResponse>
-    FindUserById(id: number) : Promise<UserResponse>
-    UpdateUser(name:string,password:string, newName:string, newPassword:string) : Promise<UserResponse>
-    DeleteUser(name:string,password:string):Promise<UserResponse>
+export interface UserMethods{
+    CreateUser(user:User) : Promise<User | null>
+    CreateProfile(id:number, profile : Profile) : Promise<Profile>
+    FindUserByName(name: string) : Promise<User | null>
+    FindUserById(id: number) : Promise<User | null>
+    UpdateUser(name:string,password:string, newName:string, newPassword:string) : Promise<User | null>
+    DeleteUser(name:string,password:string):Promise<User | null>
 }
